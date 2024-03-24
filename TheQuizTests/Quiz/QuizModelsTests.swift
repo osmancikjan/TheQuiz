@@ -26,7 +26,7 @@ class QuestionModelTests: XCTestCase {
 
     func testQuestionModelDeselectAllAnswers() {
         // Given
-        var question = QuestionModel(id: "1", text: "Question 1", answered: false, allowsMultipleAnswers: true, answers: [
+        var question = QuestionModel(id: "1", text: "Question 1", allowsMultipleAnswers: true, answers: [
             AnswerModel(id: "1", text: "Answer 1", selected: true, correct: true),
             AnswerModel(id: "2", text: "Answer 2", selected: true, correct: false)
         ])

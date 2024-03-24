@@ -21,7 +21,7 @@ enum Quiz {
     }
 }
 
-class QuizModel: Equatable, Codable {
+struct QuizModel: Equatable, Codable {
     static func == (lhs: QuizModel, rhs: QuizModel) -> Bool {
         lhs.id == rhs.id && lhs.title == rhs.title && lhs.questions == rhs.questions
     }
@@ -42,7 +42,7 @@ class QuizModel: Equatable, Codable {
         self.questions = questions
     }
     
-    required init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         title = try container.decode(String.self, forKey: .title)
@@ -59,7 +59,7 @@ class QuizModel: Equatable, Codable {
 
 }
 
-class QuestionModel: Equatable, Codable {
+struct QuestionModel: Equatable, Codable {
     static func == (lhs: QuestionModel, rhs: QuestionModel) -> Bool {
         lhs.id == rhs.id && lhs.text == rhs.text && lhs.allowsMultipleAnswers == rhs.allowsMultipleAnswers && lhs.answers == rhs.answers
     }
@@ -69,7 +69,7 @@ class QuestionModel: Equatable, Codable {
     let allowsMultipleAnswers: Bool
     var answers: [AnswerModel]
     
-    func deselectAllAnswers() {
+    mutating func deselectAllAnswers() {
         for index in answers.indices {
             answers[index].selected = false
         }
@@ -89,7 +89,7 @@ class QuestionModel: Equatable, Codable {
         self.answers = answers
     }
     
-    required init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(String.self, forKey: .id)
@@ -108,7 +108,7 @@ class QuestionModel: Equatable, Codable {
     }
 }
 
-class AnswerModel: Equatable, Codable {
+struct AnswerModel: Equatable, Codable {
     static func == (lhs: AnswerModel, rhs: AnswerModel) -> Bool {
         lhs.id == rhs.id && lhs.text == rhs.text && lhs.selected == rhs.selected && lhs.correct == rhs.correct
     }
@@ -131,7 +131,8 @@ class AnswerModel: Equatable, Codable {
         self.selected = selected ?? false
         self.correct = correct
     }
-    required init(from decoder: any Decoder) throws {
+    
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.text = try container.decode(String.self, forKey: .text)
